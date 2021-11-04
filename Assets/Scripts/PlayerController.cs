@@ -46,16 +46,33 @@ public class PlayerController : MonoBehaviour
                   
         }
 
+        if(collision.gameObject.CompareTag("Wall")){
+
+            
+        }
       
     }
 
+    private float tick;
 
- 
+    public GameObject[] spawnpoints;
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == 10)
+        {
+            tick += Time.deltaTime;
+            if (tick >= 2)
+            {
+                other.gameObject.transform.position = spawnpoints[0].transform.position;
+                other.gameObject.transform.rotation = spawnpoints[0].transform.rotation;
+
+                tick = 0;
+            }
+        }
 
 
 
-    
+    }
 
-    
     
 }
