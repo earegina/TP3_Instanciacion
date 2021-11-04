@@ -4,32 +4,58 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int playerLives = 10;
-    public float speedPlayer = 10.0f;
+    [SerializeField] private int lifePlayer = 3;
+    [SerializeField] private string namePlayer = "Mr. Blue";
+    [SerializeField] private float cameraAxisX = -90f;
+    [SerializeField] private float speedPlayer = 1f;
+
        
     // Start is called before the first frame update
-    void Start(){
-        
+    void Start()
+    {
+       
     }
 
     // Update is called once per frame
-    void Update(){
-        //MovePlayer();
-    }
-
-    /*public void MovePlayer(){
-        transform.Translate(speedPlayer * Time.deltaTime * Vector3.right);
-    }*/
-
-    public void PlayerHealing(int healing) 
+    void Update()
     {
-        playerLives += healing;
-
+      Move();
+      RotatePlayer();
     }
 
-    public void PlayerDamage(int damage) 
+    private void Move()
     {
-       playerLives -= damage;
+        float ejeHorizontal = Input.GetAxisRaw("Horizontal");
+        float ejeVertical = Input.GetAxisRaw("Vertical");
+        transform.Translate(speedPlayer * Time.deltaTime * new Vector3(ejeHorizontal, 0, ejeVertical));
     }
+
+    private void RotatePlayer()
+    {
+        cameraAxisX += Input.GetAxis("Mouse X");
+        Quaternion angulo   = Quaternion.Euler(0, cameraAxisX, 0);
+        transform.localRotation = angulo;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.gameObject.name);
+        if(collision.gameObject.CompareTag("Portal")){
+
+         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                  
+        }
+
+      
+    }
+
+
+ 
+
+
+
+    
+
+    
     
 }
